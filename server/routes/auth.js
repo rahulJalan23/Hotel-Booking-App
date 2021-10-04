@@ -1,11 +1,18 @@
-import express from "express";
+import express from 'express';
 const router = express.Router();
+import { authMiddleware } from '../middlewares/authMw';
+import {
+  handleLogin,
+  handleRegistration,
+  protectedRoute,
+} from '../controllers/authControllers';
 
-import { handleRegistration } from "../controllers/authControllers";
+router.post('/register', handleRegistration);
+router.post('login', handleLogin); // check path
+router.get('/protected', authMiddleware, protectedRoute);
 
-router.post("/register", handleRegistration);
-
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "working Properly" });
+router.get('/', (req, res) => {
+  res.status(200).json({ message: 'working Properly' });
 });
+
 export default router;

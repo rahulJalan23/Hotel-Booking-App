@@ -1,9 +1,10 @@
-import instance from "./axiosInit";
+import instance from './axiosInit';
 
 export const registerReq = async (enteredData) => {
-  console.log("in  the registerReq func starting");
-  const response = await instance.post("/register", enteredData);
-  console.log("in  the registerReq func ending");
-
+  const response = await instance.post('/register', enteredData);
+  return response;
+};
+export const loginReq = async (enteredData) => {
+  const response = await instance.post('/login', enteredData);
   return response;
 };

@@ -1,26 +1,38 @@
-import express from "express";
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import authRouter from './routes/auth';
+import testDataRoutes from './routes/testData';
+// eslint-disable-next-line no-undef
+const morgan = require('morgan');
+
+import { MONGODB_URI } from './utils/config';
 const app = express();
-import { MONGODB_URI } from "./utils/config";
-import cors from "cors";
-import mongoose from "mongoose";
-import authRouter from "./routes/auth";
-const morgan = require("morgan");
+
+// Database Connection
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
-    console.log("Connected to database");
+    console.log('Connected to database');
   })
-  .catch((err) => {
-    console.error("There is an error with database Connection");
+  .catch(() => {
+    console.error('There is an error with database Connection');
   });
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
-app.use("/api", authRouter);
+// Routes
+app.use('/api', authRouter);
 
-app.get("/", (req, res) => {
-  res.send("I am the best");
+// Root Route for Testing
+app.get('/', (req, res) => {
+  res.send('I am the best');
 });
+
+// Routes to create Dummy/Test Data
+app.use('/testdata', testDataRoutes);
 export default app;
