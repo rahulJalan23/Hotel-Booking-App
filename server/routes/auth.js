@@ -8,7 +8,7 @@ import {
 } from '../controllers/authControllers';
 
 router.post('/register', handleRegistration);
-router.post('login', handleLogin); // check path
+router.post('/login', handleLogin);
 router.get('/protected', authMiddleware, protectedRoute);
 
 router.get('/', (req, res) => {

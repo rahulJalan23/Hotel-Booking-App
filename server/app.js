@@ -3,6 +3,9 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import authRouter from './routes/auth';
 import testDataRoutes from './routes/testData';
+import testRoutes from './routes/test';
+import adminRoutes from './routes/admin';
+
 // eslint-disable-next-line no-undef
 const morgan = require('morgan');
 
@@ -27,12 +30,16 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api', authRouter);
-
-// Root Route for Testing
-app.get('/', (req, res) => {
-  res.send('I am the best');
-});
+app.use('/admin', adminRoutes);
 
 // Routes to create Dummy/Test Data
 app.use('/testdata', testDataRoutes);
+
+// Routes for testing
+app.use('/test', testRoutes);
+
+// Root Route
+app.get('/', (req, res) => {
+  res.send('I am the best');
+});
 export default app;

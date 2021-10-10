@@ -33,8 +33,6 @@ const userSchema = new Schema(
 // Model method to generate acive and refresh tokens
 userSchema.methods.generateAuthTokens = async function () {
   try {
-    console.log(this);
-    console.log(ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY);
     const activeToken = jwt.sign(
       { _id: this._id.toString() },
       ACCESS_TOKEN_KEY,

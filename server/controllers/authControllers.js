@@ -33,27 +33,32 @@ export const handleRegistration = async (req, res) => {
   }
 };
 
-// Route Not Checked.. Create when Offline
 export const handleLogin = async (req, res) => {
   const { email, password } = req.body;
   try {
-    await User.findOne({ email }, async (err, data) => {
+    let user = await User.findOne({ email }).exec();
+    if (!user) {
+      res.status(400).json({ err: `No user registed with ${email}.` });
+      return;
+    } else {
       //Check if no user with the given e-mail is found. If so, return error.
-      console.log(data);
-      if (!data) {
-        res.status(400).json({ err: `No user registed with ${email}.` });
-      }
-      let testPass = await data.login(password);
+
+      let testPass = await user.login(password);
       if (testPass == true) {
-        const { activeToken, refreshToken } = await data.generateAuthTokens();
-        res.status(200).send({ ok: true, data, activeToken, refreshToken });
+        const { activeToken, refreshToken } = await user.generateAuthTokens();
+        res.send({ ok: true, user, activeToken, refreshToken });
       } else {
-        res.status(404).json({
-          err: 'Incorrect password for the given e-mail.',
-        });
+        try {
+          res.status(404).json({
+            err: 'Incorrect password for the given e-mail.',
+          });
+        } catch {
+          console.log('Error with sending response');
+        }
       }
-    });
+    }
   } catch (err) {
+    console.log(err);
     res.status(400).send(err);
   }
 };

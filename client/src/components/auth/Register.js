@@ -1,12 +1,18 @@
 import React from 'react';
-
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import FormikMuiField from './FormikMuiField';
 import { Button, Container } from '@mui/material';
 import { registerReq } from '../services/auth';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import Alert from '@mui/material/Alert';
+import { useHistory } from 'react-router';
 
 function Register() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  let [message, setMessage] = useState('');
   const initialValues = {
     name: 'test',
     email: 'yest@gmail.com',
@@ -31,8 +37,32 @@ function Register() {
     const submitValues = JSON.parse(JSON.stringify(values, null, 2));
     let response = { message: 'null' };
     response = await registerReq(submitValues);
-    console.log(response, response.data);
+    if (response.status == 200) {
+      setMessage('Logged In Successfully');
+    }
+    // Saving the response data in local storage and redux
+    window.localStorage.setItem('auth', JSON.stringify(response.data));
+    dispatch({
+      type: 'LOGGED_IN_USER',
+      payload: response.data,
+    });
+    history.push('/dashboard');
   };
+
+  useEffect(() => {
+    if (window.localStorage.getItem('auth')) {
+      console.log('Use effect in Register ran');
+      dispatch({
+        type: 'LOGGED_IN_USER',
+        payload: JSON.parse(window.localStorage.getItem('auth')),
+      });
+    }
+    return () => {
+      //cleanup
+    };
+  }, []);
+
+  const loggedInMsg = <Alert severity="success">Successfully Logged In</Alert>;
 
   return (
     <div>
@@ -63,6 +93,7 @@ function Register() {
             >
               Submit
             </Button>
+            {message && loggedInMsg}
           </Form>
         </Container>
       </Formik>
