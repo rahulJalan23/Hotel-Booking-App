@@ -4,8 +4,9 @@ import GoogleLogin from 'react-google-login';
 function LoginWithGoogle() {
   const responseGoogle = (response) => {
     console.log(response);
-    if (response.data.accesssToken) {
-      console.log(response.data.accessToken);
+    if (response.tokenId) {
+      // Send Access Id Back to the Backend
+      console.log(response.tokenId);
     }
   };
   return (
