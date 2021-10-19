@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import User from './../model/userModel';
+
 // import { ADMIN_KEY } from '../utils/config';
 
 // const adminAuth = async (req, res, next) => {

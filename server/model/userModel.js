@@ -25,6 +25,15 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
     },
+    googleId: {
+      type: String,
+    },
+    imgUrl: {
+      type: String,
+    },
+    stripe_account_id: '',
+    stripe_seller: {},
+    stripeSession: {},
   },
   {
     timestamps: true,

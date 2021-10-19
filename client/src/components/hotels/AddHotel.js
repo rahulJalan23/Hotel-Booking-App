@@ -1,23 +1,19 @@
+/* eslint-disable */
+// Copied from login page
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { Box } from '@mui/system';
+import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import FormikMuiField from './FormikMuiField';
-import { Button, Container, Alert } from '@mui/material';
+import FormikMuiField from '../auth/FormikMuiField';
+import { Button, Container } from '@mui/material';
 import { loginReq } from '../services/auth';
+import Alert from '@mui/material/Alert';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router';
-import LoginWithGoogle from './LoginWithGoogle';
 
-// use 'react-toastify' to show toast notification
-function Register() {
-  const history = useHistory();
-
-  const dispatch = useDispatch();
-  let [message, setMessage] = useState('');
-  // Test Login Passowrd
-  // yest@gmail.com
-  // j,b,jbkbkkuggu
+function AddHotel() {
   const initialValues = {
     email: 'yest@gmail.com',
     password: 'j,b,jbkbkkuggu',
@@ -48,21 +44,8 @@ function Register() {
     });
     history.push('/dashboard');
   };
-  useEffect(() => {
-    if (window.localStorage.auth)
-      dispatch({
-        type: 'LOGGED_IN_USER',
-        payload: JSON.parse(window.localStorage.auth),
-      });
-    return () => {
-      //cleanup
-    };
-  }, []);
-
-  const loggedInMsg = <Alert severity="success">Successfully Logged In</Alert>;
-
   return (
-    <div>
+    <Box>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -94,8 +77,8 @@ function Register() {
           <LoginWithGoogle />
         </Container>
       </Formik>
-    </div>
+    </Box>
   );
 }
 
-export default Register;
+export default AddHotel;

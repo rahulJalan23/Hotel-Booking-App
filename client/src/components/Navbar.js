@@ -4,8 +4,10 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,7 +28,7 @@ export default function Navbar() {
     history.push('/register');
   }
   function toHome() {
-    history.push('/home');
+    history.push('/');
   }
   const onLogout = async () => {
     window.localStorage.setItem('auth', null);
@@ -51,15 +53,7 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <MenuHamburger />
           {/** TODO: Replace with Logo*/}
           <Button variant="contained" onClick={toHome} sx={{ mr: 10 }}>
             <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
@@ -78,3 +72,62 @@ export default function Navbar() {
     </Box>
   );
 }
+
+const MenuHamburger = () => {
+  const history = useHistory();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <div>
+      <Button
+        id="basic-button"
+        aria-controls="basic-menu"
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        <MenuIcon color="secondary" />
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            history.push('/dashboard');
+            handleClose();
+          }}
+        >
+          Dashboard
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            history.push('/dashboard');
+            handleClose();
+          }}
+        >
+          TBD
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            history.push('/dashboard');
+            handleClose();
+          }}
+        >
+          TBD
+        </MenuItem>
+      </Menu>
+    </div>
+  );
+};
