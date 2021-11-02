@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Alert from '@mui/material/Alert';
 import { useHistory } from 'react-router';
+import LoginWithGoogle from './LoginWithGoogle';
 
 function Register() {
   const history = useHistory();
@@ -51,6 +52,7 @@ function Register() {
 
   useEffect(() => {
     if (window.localStorage.getItem('auth')) {
+      console.log(window.localStorage.getItem('auth'));
       console.log('Use effect in Register ran');
       dispatch({
         type: 'LOGGED_IN_USER',
@@ -95,6 +97,7 @@ function Register() {
             </Button>
             {message && loggedInMsg}
           </Form>
+          <LoginWithGoogle />
         </Container>
       </Formik>
     </div>

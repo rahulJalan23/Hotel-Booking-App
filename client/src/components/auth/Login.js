@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import FormikMuiField from './FormikMuiField';
@@ -48,16 +48,16 @@ function Register() {
     });
     history.push('/dashboard');
   };
-  useEffect(() => {
-    if (window.localStorage.auth)
-      dispatch({
-        type: 'LOGGED_IN_USER',
-        payload: JSON.parse(window.localStorage.auth),
-      });
-    return () => {
-      //cleanup
-    };
-  }, []);
+  // useEffect(() => {
+  //   if (window.localStorage.auth)
+  //     dispatch({
+  //       type: 'LOGGED_IN_USER',
+  //       payload: JSON.parse(window.localStorage.auth),
+  //     });
+  //   return () => {
+  //     //cleanup
+  //   };
+  // }, []);
 
   const loggedInMsg = <Alert severity="success">Successfully Logged In</Alert>;
 

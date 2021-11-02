@@ -1,4 +1,4 @@
-// import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 import User from '../model/userModel';
 
@@ -34,8 +34,9 @@ export const handleRegistration = async (req, res) => {
 };
 
 export const handleLogin = async (req, res) => {
-  const { email, password } = req.body;
   try {
+    const email = req.body.email;
+    const password = req.body.email;
     let user = await User.findOne({ email }).exec();
     if (!user) {
       res.status(400).json({ err: `No user registed with ${email}.` });
@@ -63,6 +64,49 @@ export const handleLogin = async (req, res) => {
   }
 };
 
+export const handleGoogleAuth = async (req, res) => {
+  try {
+    const token =
+      req.body.tokenId ||
+      req.query.token ||
+      req.body.token ||
+      req.headers['token'];
+    const data = await jwt.decode(token);
+    const email = data.email;
+    let user = await User.findOne({ email }).exec();
+    if (!user) {
+      // register user
+
+      user = new User({
+        name: data.name,
+        email,
+        password: 'GoogleDummyPass',
+        imgUrl: data.picture,
+        googleId: data.sub,
+      });
+
+      try {
+        const { activeToken, refreshToken } = await user.generateAuthTokens();
+        console.log('USER CREATED', user, activeToken, refreshToken);
+
+        return res.json({ ok: true, user, activeToken, refreshToken });
+      } catch (err) {
+        console.log('CREATE USER FAILED', err);
+
+        return res.status(400).send('Error. Try again.');
+      }
+    } else {
+      // login user
+      const { activeToken, refreshToken } = await user.generateAuthTokens();
+      res.send({ ok: true, user, activeToken, refreshToken });
+    }
+
+    // res.send()
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
+};
 // Test Route
 export const protectedRoute = async (req, res) => {
   res.json({ data: 'This is a protected route' });

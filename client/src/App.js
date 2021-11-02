@@ -12,11 +12,12 @@ import { useEffect } from 'react';
 import AddHotel from './components/hotels/AddHotel';
 
 function App() {
-  const auth = window.localStorage.auth;
+  const auth = window.localStorage.getItem('auth');
+  // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
   useEffect(() => {
-    if (auth);
-    {
+    if (auth && auth != 'undefined') {
+      console.log('Use Effect in App.js ran.');
       dispatch({
         type: 'LOGGED_IN_USER',
         payload: JSON.parse(window.localStorage.auth),

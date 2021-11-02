@@ -5,10 +5,12 @@ import {
   handleLogin,
   handleRegistration,
   protectedRoute,
+  handleGoogleAuth,
 } from '../controllers/authControllers';
 
 router.post('/register', handleRegistration);
 router.post('/login', handleLogin);
+router.post('/auth/google', handleGoogleAuth);
 router.get('/protected', authMiddleware, protectedRoute);
 
 router.get('/', (req, res) => {
