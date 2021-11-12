@@ -17,9 +17,9 @@ function DashboardCard() {
       This is Dashboard Card
       <Paper elevation={0}>
         <Card elevation={0} sx={{ bgcolor: 'secondary.main' }}>
-          <CardHeader></CardHeader>
-          <CardContent></CardContent>
-          <CardActions></CardActions>
+          <CardHeader>This is Card Header</CardHeader>
+          <CardContent>This is card content</CardContent>
+          <CardActions>This is card action</CardActions>
         </Card>
         {auth &&
         auth.user &&

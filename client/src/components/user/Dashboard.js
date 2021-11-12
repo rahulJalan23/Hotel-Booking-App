@@ -8,7 +8,7 @@ import Bookings from './Bookings';
 import Hotels from './Hotels';
 import DashboardCard from './DashboardCard';
 function Dashboard() {
-  console.log(window.location.path);
+  console.log(window.location.pathname);
   const [path, setpath] = useState(window.location.pathname);
   useEffect(() => {
     setpath(window.location.pathname);

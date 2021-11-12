@@ -8,13 +8,15 @@ import { Switch, Route } from 'react-router-dom';
 import Dashboard from './components/user/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AddHotel from './components/hotels/AddHotel';
 
 function App() {
   const auth = window.localStorage.getItem('auth');
-  // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (auth && auth != 'undefined') {
       console.log('Use Effect in App.js ran.');
@@ -23,18 +25,23 @@ function App() {
         payload: JSON.parse(window.localStorage.auth),
       });
     }
+    setLoading(false);
     return () => {};
   }, []);
   return (
     <div className="App">
       <Navbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login" component={Login} />
-        <PrivateRoute path="/dashboard" component={Dashboard} />
-        <PrivateRoute path="/hotels/new" component={AddHotel} />
-      </Switch>
+      {loading ? (
+        <div>Rahul</div>
+      ) : (
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/hotels/new" component={AddHotel} />
+        </Switch>
+      )}
     </div>
   );
 }
